@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Quicksand:wght@300..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cor1: #19191d;
+    --cor2: #fff;
+    --cor3: #8fa691;
+    --cor4: #d4ceaa;
+    --cor5: #f9fadc;
+    --cor6: #cc3917;
+
+    --fontPrincipal: "DM Serif Display", serif;
+    --fontSecundaria: "Quicksand", sans-serif;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-family: var(--fontPrincipal);
+    background: transparent;
+
+    a.header-title {
+        font-size: 3rem;
+        color: var(--cor2);
+        text-decoration: none;
+    }
+
+    div {
+        width: 20%;
+
+        a.header-creat-btn {
+            font-family: var(--fontSecundaria);
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 5px;
+            border-radius: 20px;
+            border: 2px solid var(--cor2);
+            text-decoration: none;
+            color: var(--cor2);
+            transition: ease-in-out 0.2s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        ul {
+            li {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                list-style: none;
+                cursor: pointer;
+                transition: ease-in-out 0.2s;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                a.header-btn {
+                    i {
+                        color: var(--cor2);
+                        font-size: 2rem;
+                        transition: 0.5s;
+                    }
+                }
+
+                p.header-p {
+                    font-family: var(--fontSecundaria);
+                    font-size: 1.2rem;
+                    color: var(--cor2);
+                }
+            }
+        }
+    }
+}
+
+section#home {
+    height: 70vh;
+    width: 100%;
+    background-color: var(--cor6);
+
+    div {
+        width: 100%;
+
+        h1 {
+            font-family: var(--fontPrincipal);
+            font-size: 3.8rem;
+            color: var(--cor2);
+        }
+
+        p {
+            font-family: var(--fontSecundaria);
+            font-size: 1.5rem;
+            color: var(--cor2);
+        }
+    }
+}
+
+section#eventos {}
+
+/* estilizacao da tela de login */
+
+body#login {
+    background-color: var(--cor6);
+}
+
+div.div-login {
+    height: 100vh;
+    width: 55%;
+    background-color: var(--cor2);
+
+    div.login {
+        width: 70%;
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+        }
+
+        form {
+            button{
+                background-color: var(--cor6);
+            }
+        }
+    }
+}
