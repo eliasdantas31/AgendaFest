@@ -1,43 +1,43 @@
 <?php
-    session_start();
-    require(__DIR__ . '/../includes/config.php');
+session_start();
+require(__DIR__ . '/../includes/config.php');
 
-    if (!isset($_SESSION['email'])) {
-        header("Location: login.php");
-        exit();
-    }
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
 
-    $email = $_SESSION['email'];
-    
-    if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $nome = $_POST['nome'] ?? '';
-        $novoEmail = $_POST['email'] ?? '';
-        $senha = $_POST['senha'] ?? '';
+$email = $_SESSION['email'];
 
-        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-        $stmt = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE email = ?");
-        $stmt->bind_param("ssss", $nome, $novoEmail, $senhaHash, $email);
-        $stmt->execute();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome'] ?? '';
+    $novoEmail = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
 
-        $_SESSION['nome'] = $nome;
-        $_SESSION['email'] = $novoEmail;
-
-        header("Location: ./profile.php");
-        exit();
-    }
-
-    $stmt = $conexao->prepare("SELECT * FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
+    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+    $stmt = $conexao->prepare("UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE email = ?");
+    $stmt->bind_param("ssss", $nome, $novoEmail, $senhaHash, $email);
     $stmt->execute();
-    $resultado = $stmt->get_result();
-    $usuario = $resultado->fetch_assoc();
 
-    $stmtEventos = $conexao->prepare("SELECT * FROM eventos WHERE usuario_email = ?");
-    $stmtEventos->bind_param("s", $email);
-    $stmtEventos->execute();
-    $eventos = $stmtEventos->get_result();
+    $_SESSION['nome'] = $nome;
+    $_SESSION['email'] = $novoEmail;
 
-    include('../includes/head.php');
+    header("Location: ./profile.php");
+    exit();
+}
+
+$stmt = $conexao->prepare("SELECT * FROM usuarios WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$resultado = $stmt->get_result();
+$usuario = $resultado->fetch_assoc();
+
+$stmtEventos = $conexao->prepare("SELECT * FROM eventos WHERE usuario_email = ?");
+$stmtEventos->bind_param("s", $email);
+$stmtEventos->execute();
+$eventos = $stmtEventos->get_result();
+
+include('../includes/head.php');
 ?>
 
 <body id="profile">
@@ -47,6 +47,7 @@
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#eventos">Eventos</button>
         </nav>
         <div class="tab-content w-100 mt-3">
+
             <div class="tab-pane fade show active" id="profileDiv">
                 <div class="div-profile">
                     <div class="row w-100">
@@ -75,7 +76,7 @@
 
             <div class="tab-pane fade" id="eventos">
                 <h1 class="mb-3">Meus Eventos</h1>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div class="div-eventos row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     <?php while ($evento = $eventos->fetch_assoc()): ?>
                         <div class="col">
                             <div class="card h-100">
@@ -92,7 +93,21 @@
                                 </div>
                                 <div class="card-footer">
                                     <a href="editEvent.php?id=<?= $evento['id'] ?>" class="btn btn-primary">Editar</a>
-                                    <a href="deleteEvent.php?id=<?= $evento['id'] ?>" class="btn btn-danger">Excluir</a>
+                                    <button class="btn btn-danger" onclick="showdeleteMenu(<?= $evento['id'] ?>)">Excluir</button>
+                                    
+                                    <!-- menu para deletar o evento -->
+                                    <div class="delete-menu bg-light m-0">
+                                        <div class="container">
+                                            <div class="row d-flex justify-content-center align-items-center">
+                                                <p>Tem certeza que deseja excluir esse evento?</p>
+                                            </div>
+                                            <div class="row d-flex justify-content-around align-items-center">
+                                                <button class="btn btn-primary" onclick="hidedeleteMenu()">Cancelar</button>
+                                                <a href="deleteEvent.php?id=<?= $evento['id'] ?>" class="btn btn-danger">Excluir</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -101,4 +116,6 @@
             </div>
         </div>
     </div>
-<?php include('../includes/footer.php'); ?>
+    <?php
+    include('../includes/footer.php');
+    ?>

@@ -29,7 +29,7 @@ header {
 
     a.header-title {
         font-size: 3rem;
-        color: var(--cor2);
+        color: var(--cor1);
         text-decoration: none;
     }
 
@@ -168,7 +168,7 @@ body#profile {
                     div.row:nth-of-type(1) {
                         height: max-content;
                         width: 100%;
-                        
+
                         h1 {
                             font-size: 3.5rem;
                             font-family: var(--fontPrincipal);
@@ -190,6 +190,46 @@ body#profile {
                                 background-color: var(--cor4);
                                 font-family: var(--fontSecundaria);
                                 font-size: 1.3rem;
+                            }
+                        }
+                    }
+                }
+
+                div.div-eventos {
+                    div.col {
+                        div.card {
+                            div.card-footer {
+                                div.delete-menu {
+                                    position: absolute;
+                                    display: none;
+                                    height: max-content;
+                                    width: max-content;
+                                    padding: 10px;
+                                    box-shadow: 10px 5px 7px 5px rgba(0, 0, 0, 0.2);
+                                    z-index: 100;
+
+                                    div.container {
+                                        height: max-content;
+
+                                        div.row {
+                                            p {
+                                                width: max-content;
+                                                font-size: 1.5rem;
+                                                font-family: var(--fontPrincipal);
+                                            }
+
+                                            button,
+                                            a {
+                                                width: 25%;
+                                                font-family: var(--fontSecundaria);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .delete-menu-active {
+                                    display: block;
+                                }
                             }
                         }
                     }
@@ -224,11 +264,11 @@ body#createEvent {
         height: 100vh;
         width: 100%;
 
-        div.row{
-            div.col-12:nth-of-type(2){
-                form{
-                    div.row{
-                        div.col-4{
+        div.row {
+            div.col-12:nth-of-type(2) {
+                form {
+                    div.row {
+                        div.col-4 {
                             display: flex;
                             justify-content: space-around;
                             align-items: center;

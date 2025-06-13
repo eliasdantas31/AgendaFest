@@ -8,10 +8,17 @@ CREATE TABLE Usuarios
     senha varchar(255)
 );
 
-CREATE TABLE Eventos
-(
-    id int primary key auto_increment,
-    titulo varchar(100),
-    descricao text,
-    data datetime
+CREATE TABLE eventos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    data_evento DATE NOT NULL,
+    hora_evento TIME NOT NULL,
+    local VARCHAR(255),
+    categoria VARCHAR(100),
+    imagem VARCHAR(255),
+    usuario_email VARCHAR(100),
+    FOREIGN KEY (usuario_email) REFERENCES usuarios(email)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
