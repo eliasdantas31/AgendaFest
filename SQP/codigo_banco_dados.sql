@@ -12,6 +12,6 @@ CREATE TABLE Eventos
 (
     id int primary key auto_increment,
     titulo varchar(100),
-    data datetime,
-    descricao text
+    descricao text,
+    data datetime
 );

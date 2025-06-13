@@ -50,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <body id="forgotPass">
-    <div class="background-header"></div>
     <div class="container d-flex flex-column justify-content-center align-items-center">
         <div>
             <p><a href="./index.php" class="text-decoration-none text-black">AgendaFest</a> | SkyLinkd</p>

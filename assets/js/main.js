@@ -10,43 +10,72 @@ document.addEventListener("DOMContentLoaded", () => {
     const username = window.username;
     const isLoggedIn = username && username !== 'null';
 
+    // Header principal como navbar
     const header = document.createElement("header");
-    header.setAttribute("class", "header d-flex justify-content-around align-items-center");
+    header.setAttribute("class", "header navbar navbar-expand-lg bg-light px-3");
     document.body.prepend(header);
 
+    // Título / logo
     const title = document.createElement("a");
-    title.className = "header-title";
+    title.className = "navbar-brand";
     title.href = "./index.php";
     title.innerText = "AgendaFest";
     header.appendChild(title);
 
-    const div = document.createElement("div");
-    div.className = "d-flex justify-content-around align-items-center";
-    header.appendChild(div);
+    // Botão hamburguer (mobile)
+    const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
+    toggleButton.className = "navbar-toggler";
+    toggleButton.setAttribute("data-bs-toggle", "collapse");
+    toggleButton.setAttribute("data-bs-target", "#menu");
 
-    const a_createEvent = document.createElement("a");
-    a_createEvent.className = "header-creat-btn";
-    a_createEvent.href = isLoggedIn ? "./createEvent.php" : "./login.php";
-    a_createEvent.innerText = "Criar Evento";
-    div.appendChild(a_createEvent);
+    const span = document.createElement("span");
+    span.className = "navbar-toggler-icon";
+    toggleButton.appendChild(span);
+    header.appendChild(toggleButton);
 
-    const ul = document.createElement("ul");
-    ul.className = "d-flex justify-content-around align-items-center m-0 p-0";
-    div.appendChild(ul);
+    // Menu colapsável
+    const menuDiv = document.createElement("div");
+    menuDiv.className = "collapse navbar-collapse justify-content-end";
+    menuDiv.id = "menu";
+    header.appendChild(menuDiv);
 
-    const li = document.createElement("li");
+    // Container interno do menu
+    const nav = document.createElement("ul");
+    nav.className = "navbar-nav d-flex flex-row flex-lg-row align-items-center gap-3 m-0";
+    menuDiv.appendChild(nav);
+
+    // Botão "Criar Evento"
+    if (!path.includes("createEvent.php")) {
+        const liCreate = document.createElement("li");
+        liCreate.className = "nav-item";
+
+        const a_createEvent = document.createElement("a");
+        a_createEvent.className = "btn text-white";
+        a_createEvent.href = isLoggedIn ? "./createEvent.php" : "./login.php";
+        a_createEvent.innerText = "Criar Evento";
+
+        liCreate.appendChild(a_createEvent);
+        nav.appendChild(liCreate);
+    }
+
+    // Login/Profile
+    const liUser = document.createElement("li");
+    liUser.className = "nav-item d-flex align-items-center";
+
     const a = document.createElement("a");
-    const i = document.createElement("i");
-    i.className = "bi bi-person-fill";
-    a.className = "header-btn";
+    a.className = "nav-link";
     a.href = isLoggedIn ? "./profile.php" : "./login.php";
+
+    const i = document.createElement("i");
+    i.className = "bi bi-person-fill fs-4";
     a.appendChild(i);
 
     const p = document.createElement("p");
-    p.className = "header-p m-0 p-2";
+    p.className = "m-0 ps-2";
     p.innerText = isLoggedIn ? `Olá, ${username}` : "Login";
 
-    li.appendChild(a);
-    li.appendChild(p);
-    ul.appendChild(li);
+    liUser.appendChild(a);
+    liUser.appendChild(p);
+    nav.appendChild(liUser);
 });

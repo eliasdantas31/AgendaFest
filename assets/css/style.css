@@ -150,16 +150,6 @@ body#login {
 /* estilização da tela de profile */
 
 body#profile {
-    div.background-header {
-        height: 72px;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: var(--cor4);
-        z-index: 1000;
-    }
-
     div.container {
         height: 100vh;
         width: 100%;
@@ -212,16 +202,6 @@ body#profile {
 /* esrilização da tela de forgotPass */
 
 body#forgotPass {
-    div.background-header {
-        height: 72px;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: var(--cor6);
-        z-index: 1000;
-    }
-
     div.container {
         height: 100vh;
         width: 100%;
@@ -231,6 +211,29 @@ body#forgotPass {
                 button {
                     background-color: var(--cor6);
                     font-family: var(--fontSecundaria);
+                }
+            }
+        }
+    }
+}
+
+/* estilizacao da tela de createEvent */
+
+body#createEvent {
+    div.container {
+        height: 100vh;
+        width: 100%;
+
+        div.row{
+            div.col-12:nth-of-type(2){
+                form{
+                    div.row{
+                        div.col-4{
+                            display: flex;
+                            justify-content: space-around;
+                            align-items: center;
+                        }
+                    }
                 }
             }
         }
