@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->store_result(); // <-- necessário para SELECT 1
 
     if ($stmt->num_rows > 0) {
-        $erroCadastro = "❌ Este email já está cadastrado.";
+        $erroCadastro = "<p>❌ Este email já está cadastrado. <a href='./login.php' class='text-decoration-none'>Clique aqui para fazer login.</a></p>";
     } else {
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
         $stmt = $conexao->prepare("INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)");
@@ -47,7 +47,7 @@ include('../includes/head.php');
 
             <?php if (!empty($erroCadastro)): ?>
                 <div class="alert alert-danger w-100 text-center mb-3">
-                    <?= htmlspecialchars($erroCadastro) ?>
+                    <?= $erroCadastro ?>
                 </div>
             <?php endif; ?>
 
@@ -62,6 +62,6 @@ include('../includes/head.php');
             </form>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<?php 
+    include('../includes/footer.php'); 
+?>

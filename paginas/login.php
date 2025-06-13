@@ -1,36 +1,38 @@
 <?php
-    session_start();
+session_start();
 
-    require(__DIR__ . '/../includes/config.php');
+require(__DIR__ . '/../includes/config.php');
 
-    $erroLogin = '';
+$erroLogin = '';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = $_POST['email'] ?? '';
-        $senha = $_POST['senha'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
 
-        $stmt = $conexao->prepare("SELECT * FROM usuarios WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
+    $stmt = $conexao->prepare("SELECT * FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
 
-        if ($resultado->num_rows === 1) {
-            $usuario = $resultado->fetch_assoc();
+    if ($resultado->num_rows === 1) {
+        $usuario = $resultado->fetch_assoc();
 
-            if (password_verify($senha, $usuario['senha'])) {
-                $_SESSION['nome'] = $usuario['nome'];
+        if (password_verify($senha, $usuario['senha'])) {
+            $_SESSION['nome'] = $usuario['nome'];
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['senha'] = $usuario['senha'];
 
-                header("Location: index.php");
-                exit();
-            } else {
-                $erroLogin = '❌ Senha incorreta.';
-            }
+            header("Location: index.php");
+            exit();
         } else {
-            $erroLogin = '❌ Usuário não encontrado.';
+            $erroLogin = '<p>❌ Senha incorreta. <a href="./forgotPass.php" class="text-decoration-none">Clique aqui caso tenha esquecido sua senha.</a></p>';
         }
+    } else {
+        $erroLogin = '<p>❌ Usuário não encontrado. <a href="./signup.php" class="text-decoration-none">Clique aqui para se cadastrar.</a></p>';
     }
+}
 
-    include('../includes/head.php');
+include('../includes/head.php');
 ?>
 
 <body id="login">
@@ -51,13 +53,13 @@
                 <button type="submit" class="w-100 btn text-white">Entrar</button>
             </form>
             <?php if (!empty($erroLogin)): ?>
-                <div class="alert alert-danger w-100 text-center">
-                    <?= htmlspecialchars($erroLogin) ?>
+                <div class="alert alert-danger w-100 mt-3">
+                    <?= $erroLogin ?>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 
-<?php 
-    include('../includes/footer.php'); 
-?>
+    <?php
+    include('../includes/footer.php');
+    ?>
