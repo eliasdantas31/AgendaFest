@@ -47,6 +47,7 @@ include('../includes/head.php');
 ?>
 
 <body id="createEvent">
+    
     <div class="container d-flex flex-column justify-content-center align-items-center">
         <h1>Criar Evento</h1>
         <?php if (!empty($erro)): ?>
