@@ -1,47 +1,108 @@
 <?php
 session_start();
 require(__DIR__ . '/../includes/config.php');
-include('../includes/head.php');
 
-setlocale(LC_TIME, 'pt_BR.utf8', 'pt_BR', 'Portuguese_Brazil.1252');
-date_default_timezone_set('America/Sao_Paulo');
+$id = $_GET['id'] ?? $_POST['id'] ?? null;
 
-$categorias = ['Cultural', 'Esportivo', 'Academico'];
-
-function exibirEventos($conexao, $categoria)
-{
-    $stmt = $conexao->prepare("SELECT * FROM eventos WHERE categoria = ? ORDER BY data_evento ASC LIMIT 3");
-    $stmt->bind_param("s", $categoria);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    if ($resultado->num_rows === 0) {
-        return;
-    }
-
-    echo '<h3 class="mb-3 p-5">' . htmlspecialchars($categoria) . '</h3>';
-    echo '<div class="div-eventos row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">';
-
-    while ($evento = $resultado->fetch_assoc()) {
-        $data = strtotime($evento['data_evento']);
-        $dataFormatada = mb_strtoupper(strftime('%d de %B', $data), 'UTF-8');
-
-        echo '<div class="col">';
-        echo '<div class="card h-100 shadow rounded">';
-        echo '<img src="../assets/imagens/' . htmlspecialchars($evento['imagem']) . '" class="card-img-top" alt="Imagem do Evento">';
-        echo '<div class="card-body">';
-        echo '<small class="text-primary fw-bold d-block mb-2">' . $dataFormatada . '</small>';
-        echo '<h5 class="card-title fw-bold">' . htmlspecialchars($evento['titulo']) . '</h5>';
-        echo '<span class="badge bg-secondary mb-2">' . htmlspecialchars($evento['categoria']) . '</span>';
-        echo '<p class="card-text">' . nl2br(htmlspecialchars($evento['descricao'])) . '</p>';
-        echo '<p><strong>Horário:</strong> ' . htmlspecialchars($evento['hora_evento']) . '</p>';
-        echo '<p><strong>Local:</strong> ' . htmlspecialchars($evento['local']) . '</p>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
-
-    echo '</div>';
-    $stmt->close();
+if (!$id) {
+    echo "ID do evento não fornecido.";
+    exit();
 }
+
+// Processar comentário
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['email'])) {
+    $comentario = trim($_POST['comentario'] ?? '');
+    $usuario_email = $_SESSION['email'];
+
+    if (!empty($comentario)) {
+        $stmt = $conexao->prepare("INSERT INTO comentarios (evento_id, usuario_email, comentario) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $id, $usuario_email, $comentario);
+        $stmt->execute();
+    }
+}
+
+// Buscar evento
+$stmt = $conexao->prepare("SELECT * FROM eventos WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$resultado = $stmt->get_result();
+
+if ($resultado->num_rows === 0) {
+    echo "Evento não encontrado.";
+    exit();
+}
+
+$evento = $resultado->fetch_assoc();
+
+include('../includes/head.php');
 ?>
+
+<body id="eventos">
+    <div class="container mt-5">
+        <div class="row">
+            <img src="../assets/imagens/<?= htmlspecialchars($evento['imagem']) ?>" alt="Imagem do Evento" style="max-width: 300px;" class="mb-4">
+        </div>
+        <div class="row mb-3">
+            <h1 class="fw-bold"><?= htmlspecialchars($evento['titulo']) ?></h1>
+            <p><?= nl2br(htmlspecialchars($evento['descricao'])) ?></p>
+            <p><strong>Local:</strong> <?= htmlspecialchars($evento['local']) ?></p>
+        </div>
+        <div class="row mb-5">
+            <h3 class="fw-bold">Programação</h3>
+            <p><strong>Data:</strong> <?= htmlspecialchars($evento['data_evento']) ?></p>
+            <p><strong>Horário:</strong> <?= htmlspecialchars($evento['hora_evento']) ?></p>
+        </div>
+
+        <div class="comentarios mb-5">
+            <h3 class="fw-bold">Comentários</h3>
+
+            <?php if (isset($_SESSION['email'])): ?>
+                <form action="eventos.php" method="POST" class="mb-4">
+                    <div class="input-group">
+                        <input type="hidden" name="id" value="<?= $id ?>">
+                        <input type="text" name="comentario" class="form-control" placeholder="Digite seu comentário" required>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </form>
+            <?php else: ?>
+                <p>Você precisa <a href="login.php">estar logado</a> para comentar.</p>
+            <?php endif; ?>
+
+            <?php
+            $stmt = $conexao->prepare("
+    SELECT c.id, c.comentario, c.data_comentario, c.usuario_email, u.nome
+    FROM comentarios c
+    JOIN usuarios u ON c.usuario_email = u.email
+    WHERE c.evento_id = ?
+    ORDER BY c.data_comentario DESC
+");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $comentarios = $stmt->get_result();
+
+            if ($comentarios->num_rows > 0):
+                while ($linha = $comentarios->fetch_assoc()):
+            ?>
+                    <div class="border p-3 mb-2 rounded">
+                        <strong><?= htmlspecialchars($linha['nome']) ?></strong>
+                        <small class="text-muted"><?= date('d/m/Y H:i', strtotime($linha['data_comentario'])) ?></small>
+                        <p class="mb-1"><?= nl2br(htmlspecialchars($linha['comentario'])) ?></p>
+
+                        <?php if (isset($_SESSION['email']) && $_SESSION['email'] === $linha['usuario_email']): ?>
+                            <form action="excluirComentario.php" method="POST" style="display:inline;">
+                                <input type="hidden" name="comentario_id" value="<?= $linha['id'] ?>">
+                                <input type="hidden" name="evento_id" value="<?= $id ?>">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                            </form>
+                        <?php endif; ?>
+                    </div>
+            <?php
+                endwhile;
+            else:
+                echo "<p>Seja o primeiro a comentar!</p>";
+            endif;
+            ?>
+        </div>
+    </div>
+
+    <?php include('../includes/footer.php'); ?>

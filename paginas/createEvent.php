@@ -8,6 +8,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $visibilidade = $_POST['visibilidade'] ?? 'publico';
     $titulo = $_POST['titulo'] ?? '';
     $descricao = $_POST['descricao'] ?? '';
     $data = $_POST['data'] ?? '';
@@ -25,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $caminhoFinal = __DIR__ . '/../assets/imagens/' . $novoNome;
 
             if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminhoFinal)) {
-                $stmt = $conexao->prepare("INSERT INTO eventos (titulo, descricao, data_evento, hora_evento, local, categoria, imagem, usuario_email)
-                                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->bind_param("ssssssss", $titulo, $descricao, $data, $horario, $local, $categoria, $novoNome, $usuario_email);
+                $stmt = $conexao->prepare("INSERT INTO eventos (titulo, descricao, data_evento, hora_evento, local, categoria, imagem, usuario_email, visibilidade)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("sssssssss", $titulo, $descricao, $data, $horario, $local, $categoria, $novoNome, $usuario_email, $visibilidade);
                 $stmt->execute();
 
                 header("Location: profile.php");
@@ -47,7 +48,7 @@ include('../includes/head.php');
 ?>
 
 <body id="createEvent">
-    
+
     <div class="container d-flex flex-column justify-content-center align-items-center">
         <h1>Criar Evento</h1>
         <?php if (!empty($erro)): ?>
@@ -87,7 +88,15 @@ include('../includes/head.php');
                     <option value="Cultural">Cultural</option>
                 </select>
             </div>
+            <div class="mb-3">
+                <label class="form-label">Visibilidade do Evento:</label>
+                <select name="visibilidade" class="form-select" required>
+                    <option value="">Selecione</option>
+                    <option value="publico">Público (qualquer um pode ver)</option>
+                    <option value="privado">Privado (apenas logados podem ver)</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary w-100">Criar Evento</button>
         </form>
     </div>
-<?php include('../includes/footer.php'); ?>
+    <?php include('../includes/footer.php'); ?>

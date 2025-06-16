@@ -10,19 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const username = window.username;
     const isLoggedIn = username && username !== 'null';
 
-    // header principal
     const header = document.createElement("header");
     header.setAttribute("class", "header navbar navbar-expand-lg px-3");
     document.body.prepend(header);
 
-    // titulo / logo
     const title = document.createElement("a");
     title.className = "header-title navbar-brand m-0";
     title.href = "./index.php";
     title.innerText = "AgendaFest";
     header.appendChild(title);
 
-    // btn hamburguer para mobile
     const toggleButton = document.createElement("button");
     toggleButton.type = "button";
     toggleButton.className = "navbar-toggler";
@@ -34,18 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleButton.appendChild(span);
     header.appendChild(toggleButton);
 
-    // menu
     const menuDiv = document.createElement("div");
     menuDiv.className = "collapse navbar-collapse";
     menuDiv.id = "menu";
     header.appendChild(menuDiv);
 
-    // container do menu
     const nav = document.createElement("ul");
     nav.className = "navbar-nav d-flex flex-row flex-lg-row align-items-center gap-3 m-0";
     menuDiv.appendChild(nav);
 
-    // btn para criar evento
     if (!path.includes("createEvent.php")) {
         const liCreate = document.createElement("li");
         liCreate.className = "creatBtn nav-item";
@@ -59,7 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         nav.appendChild(liCreate);
     }
 
-    // login/Profile
     const liUser = document.createElement("li");
     liUser.className = "userBtn nav-item";
 
@@ -78,9 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
     liUser.appendChild(a);
     a.appendChild(p);
     nav.appendChild(liUser);
+
+    if (!path.includes("profile.php") && !path.includes("editEvent.php") && !path.includes("login.php") && !path.includes("signup.php") && !path.includes("forgotPass.php") && !path.includes("eventos.php")) {
+        const footer = document.createElement("footer");
+        footer.className = "footer";
+        document.body.appendChild(footer);
+
+        const pFooter = document.createElement("p");
+        pFooter.className = "text-center m-0";
+        pFooter.innerText = "Criado por Elias Lima Leite e Guilherme da Costa Claudino";
+        footer.appendChild(pFooter);
+    }
 });
 
-// funcionamente btn showdeleteMenu
 const deleteMenu = document.querySelector(".delete-menu");
 
 function showdeleteMenu(id) {

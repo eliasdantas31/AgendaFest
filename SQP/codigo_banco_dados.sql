@@ -22,3 +22,13 @@ CREATE TABLE eventos (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+CREATE TABLE comentarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    evento_id INT NOT NULL,
+    usuario_email VARCHAR(255) NOT NULL,
+    comentario TEXT NOT NULL,
+    data_comentario DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (evento_id) REFERENCES eventos(id) ON DELETE CASCADE,
+    FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE
+);
