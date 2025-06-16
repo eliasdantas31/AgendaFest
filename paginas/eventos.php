@@ -27,12 +27,15 @@ function exibirEventos($conexao, $categoria)
         $dataFormatada = mb_strtoupper(strftime('%d de %B', $data), 'UTF-8');
 
         echo '<div class="col">';
-        echo '<div class="card h-100 shadow">';
+        echo '<div class="card h-100 shadow rounded">';
         echo '<img src="../assets/imagens/' . htmlspecialchars($evento['imagem']) . '" class="card-img-top" alt="Imagem do Evento">';
         echo '<div class="card-body">';
         echo '<small class="text-primary fw-bold d-block mb-2">' . $dataFormatada . '</small>';
-        echo '<h5 class="card-title fw-bold mb-4">' . htmlspecialchars($evento['titulo']) . '</h5>';
-        echo '<button class="btn btn-primary"><a href="./eventos.php?id=' . $evento['id'] . '" class="text-light text-decoration-none">Saiba Mais</a></button>';
+        echo '<h5 class="card-title fw-bold">' . htmlspecialchars($evento['titulo']) . '</h5>';
+        echo '<span class="badge bg-secondary mb-2">' . htmlspecialchars($evento['categoria']) . '</span>';
+        echo '<p class="card-text">' . nl2br(htmlspecialchars($evento['descricao'])) . '</p>';
+        echo '<p><strong>Horário:</strong> ' . htmlspecialchars($evento['hora_evento']) . '</p>';
+        echo '<p><strong>Local:</strong> ' . htmlspecialchars($evento['local']) . '</p>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
@@ -41,24 +44,4 @@ function exibirEventos($conexao, $categoria)
     echo '</div>';
     $stmt->close();
 }
-?>
-
-<body id="index">
-<section id="home" class="d-flex justify-content-center align-items-center">
-    <div class="container text-center">
-        <h1>Descubra, crie, participe e divirta-se.</h1>
-        <p>Encontre ou crie você mesmo, eventos relevantes para você.</p>
-    </div>
-</section>
-<section id="eventos" class="py-5">
-    <div class="container">
-        <h2 class="mb-4 text-center">Próximos Eventos</h2>
-        <?php foreach ($categorias as $categoria): ?>
-            <?php exibirEventos($conexao, $categoria); ?>
-        <?php endforeach; ?>
-    </div>
-</section>
-
-<?php
-    include('../includes/footer.php');
 ?>

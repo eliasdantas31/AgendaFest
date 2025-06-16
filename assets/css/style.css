@@ -28,32 +28,46 @@ header {
     z-index: 9999;
 
     a.header-title {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: var(--fontPrincipal);
         font-size: 3rem;
         color: var(--cor1);
         text-decoration: none;
     }
 
-    div {
-        width: 20%;
-
-        a.header-creat-btn {
-            font-family: var(--fontSecundaria);
-            font-size: 1.2rem;
-            font-weight: 600;
-            padding: 5px;
-            border-radius: 20px;
-            border: 2px solid var(--cor2);
-            text-decoration: none;
-            color: var(--cor2);
-            transition: ease-in-out 0.2s;
-
-            &:hover {
-                transform: scale(1.1);
-            }
-        }
+    div.collapse {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         ul {
-            li {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+
+            li.creatBtn {
+                a {
+                    font-family: var(--fontPrincipal);
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                    padding: 5px 10px;
+                    border-radius: 15px;
+                    border: 2px solid var(--cor1);
+                    color: var(--cor1);
+                    text-decoration: none;
+                    transition: ease-in-out 0.2s;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+
+            li.userBtn {
+                width: max-content;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -65,18 +79,22 @@ header {
                     transform: scale(1.1);
                 }
 
-                a.header-btn {
+                a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
                     i {
-                        color: var(--cor2);
+                        color: var(--cor1);
                         font-size: 2rem;
                         transition: 0.5s;
                     }
-                }
 
-                p.header-p {
-                    font-family: var(--fontSecundaria);
-                    font-size: 1.2rem;
-                    color: var(--cor2);
+                    p {
+                        font-family: var(--fontSecundaria);
+                        font-size: 1.2rem;
+                        color: var(--cor1);
+                    }
                 }
             }
         }
@@ -154,7 +172,7 @@ body#profile {
         height: 100vh;
         width: 100%;
 
-        .nav.nav-tabs {
+        .nav.nav {
             width: 100%;
         }
 
@@ -162,6 +180,7 @@ body#profile {
             width: 100%;
 
             div.tab-pane {
+
                 div.div-profile {
                     height: max-content;
 
@@ -169,14 +188,26 @@ body#profile {
                         height: max-content;
                         width: 100%;
 
-                        h1 {
-                            font-size: 3.5rem;
-                            font-family: var(--fontPrincipal);
+                        div.col-10 {
+                            h1 {
+                                font-size: 3.5rem;
+                                font-family: var(--fontPrincipal);
+                            }
+
+                            p {
+                                font-size: 1.5rem;
+                                font-family: var(--fontSecundaria);
+                            }
                         }
 
-                        p {
-                            font-size: 1.5rem;
-                            font-family: var(--fontSecundaria);
+                        div.col-2 {
+                            display: flex;
+                            justify-content: end;
+                            align-items: center;
+
+                            a {
+                                
+                            }
                         }
                     }
 
@@ -190,46 +221,6 @@ body#profile {
                                 background-color: var(--cor4);
                                 font-family: var(--fontSecundaria);
                                 font-size: 1.3rem;
-                            }
-                        }
-                    }
-                }
-
-                div.div-eventos {
-                    div.col {
-                        div.card {
-                            div.card-footer {
-                                div.delete-menu {
-                                    position: absolute;
-                                    display: none;
-                                    height: max-content;
-                                    width: max-content;
-                                    padding: 10px;
-                                    box-shadow: 10px 5px 7px 5px rgba(0, 0, 0, 0.2);
-                                    z-index: 100;
-
-                                    div.container {
-                                        height: max-content;
-
-                                        div.row {
-                                            p {
-                                                width: max-content;
-                                                font-size: 1.5rem;
-                                                font-family: var(--fontPrincipal);
-                                            }
-
-                                            button,
-                                            a {
-                                                width: 25%;
-                                                font-family: var(--fontSecundaria);
-                                            }
-                                        }
-                                    }
-                                }
-
-                                .delete-menu-active {
-                                    display: block;
-                                }
                             }
                         }
                     }
@@ -278,4 +269,56 @@ body#createEvent {
             }
         }
     }
+}
+
+/* estilizacao do Mural */
+
+.card {
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+    font-family: var(--fontSecundaria);
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: none;
+    padding: 1rem 1.25rem 0 1.25rem;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.card .badge {
+    font-size: 0.75rem;
+    padding: 0.4em 0.6em;
+    border-radius: 0.5rem;
+}
+
+.card-body {
+    padding: 1rem 1.25rem 1.5rem 1.25rem;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.container {
+    font-family: var(--fontSecundaria);
 }

@@ -47,7 +47,6 @@ include('../includes/head.php');
             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#eventos">Eventos</button>
         </nav>
         <div class="tab-content w-100 mt-3">
-
             <div class="tab-pane fade show active" id="profileDiv">
                 <div class="div-profile">
                     <div class="row w-100">
@@ -94,20 +93,17 @@ include('../includes/head.php');
                                 <div class="card-footer">
                                     <a href="editEvent.php?id=<?= $evento['id'] ?>" class="btn btn-primary">Editar</a>
                                     <button class="btn btn-danger" onclick="showdeleteMenu(<?= $evento['id'] ?>)">Excluir</button>
-                                    
+
                                     <!-- menu para deletar o evento -->
-                                    <div class="delete-menu bg-light m-0">
-                                        <div class="container">
-                                            <div class="row d-flex justify-content-center align-items-center">
-                                                <p>Tem certeza que deseja excluir esse evento?</p>
-                                            </div>
-                                            <div class="row d-flex justify-content-around align-items-center">
-                                                <button class="btn btn-primary" onclick="hidedeleteMenu()">Cancelar</button>
+                                    <div class="modal-overlay" id="deleteModal-<?= $evento['id'] ?>">
+                                        <div class="delete-menu">
+                                            <p class="mb-4">Tem certeza que deseja excluir esse evento?</p>
+                                            <div class="d-flex justify-content-around">
+                                                <button class="btn btn-secondary" onclick="hidedeleteMenu(<?= $evento['id'] ?>)">Cancelar</button>
                                                 <a href="deleteEvent.php?id=<?= $evento['id'] ?>" class="btn btn-danger">Excluir</a>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -116,6 +112,6 @@ include('../includes/head.php');
             </div>
         </div>
     </div>
-    <?php
+<?php
     include('../includes/footer.php');
-    ?>
+?>
