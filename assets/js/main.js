@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!path.includes("profile.php") && !path.includes("editEvent.php") && !path.includes("login.php") && !path.includes("signup.php") && !path.includes("forgotPass.php") && !path.includes("eventos.php")) {
         const footer = document.createElement("footer");
-        footer.className = "footer";
+        footer.className = "footer d-flex justify-content-center align-items-center";
         document.body.appendChild(footer);
 
         const pFooter = document.createElement("p");

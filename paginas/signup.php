@@ -9,11 +9,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
 
-    // Verifica se o email já está cadastrado
     $stmt = $conexao->prepare("SELECT 1 FROM usuarios WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result(); // <-- necessário para SELECT 1
+    $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
         $erroCadastro = "<p>❌ Este email já está cadastrado. <a href='./login.php' class='text-decoration-none'>Clique aqui para fazer login.</a></p>";

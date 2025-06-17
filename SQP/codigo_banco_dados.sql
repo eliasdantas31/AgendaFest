@@ -32,3 +32,5 @@ CREATE TABLE comentarios (
     FOREIGN KEY (evento_id) REFERENCES eventos(id) ON DELETE CASCADE,
     FOREIGN KEY (usuario_email) REFERENCES usuarios(email) ON DELETE CASCADE
 );
+
+ALTER TABLE eventos ADD COLUMN visibilidade VARCHAR(10) DEFAULT 'publico';

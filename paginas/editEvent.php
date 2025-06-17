@@ -55,7 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagem = $imagem_antiga;
     }
 
-    // Atualizar o evento
     $stmt = $conexao->prepare("UPDATE eventos 
         SET titulo = ?, data_evento = ?, hora_evento = ?, descricao = ?, categoria = ?, imagem = ? 
         WHERE id = ? AND usuario_email = ?");

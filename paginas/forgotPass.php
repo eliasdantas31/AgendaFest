@@ -8,7 +8,6 @@ $emailInformado = '';
 $mensagem = '';
 $etapa = 1;
 
-// Etapa 1: Verifica se o e-mail existe
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['verificar_email'])) {
         $emailInformado = trim($_POST['email'] ?? '');
@@ -26,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Etapa 2: Atualiza a senha
     if (isset($_POST['redefinir_senha'])) {
         $emailInformado = trim($_POST['email'] ?? '');
         $novaSenha = $_POST['nova_senha'] ?? '';
@@ -60,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <?php if ($etapa === 1): ?>
-                <!-- Formulário de verificação de email -->
                 <p>Insira seu email para redefinir sua senha:</p>
                 <form method="POST" class="d-flex flex-column">
                     <label for="email" class="form-label">Email:</label>
@@ -69,7 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
 
             <?php elseif ($etapa === 2): ?>
-                <!-- Formulário de redefinição de senha -->
                 <p>Digite sua nova senha:</p>
                 <form method="POST" class="d-flex flex-column">
                     <input type="hidden" name="email" value="<?= htmlspecialchars($emailInformado) ?>">

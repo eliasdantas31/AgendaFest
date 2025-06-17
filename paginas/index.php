@@ -13,7 +13,6 @@ function exibirEventos($conexao, $categoria)
     $usuarioLogado = isset($_SESSION['email']);
 
     if ($usuarioLogado) {
-        // Usuário logado vê todos os eventos
         $sql = "
             SELECT eventos.*, usuarios.nome AS nome_usuario, usuarios.email AS email_usuario
             FROM eventos
@@ -24,7 +23,6 @@ function exibirEventos($conexao, $categoria)
         $stmt = $conexao->prepare($sql);
         $stmt->bind_param("s", $categoria);
     } else {
-        // Visitante só vê eventos públicos
         $sql = "
             SELECT eventos.*, usuarios.nome AS nome_usuario, usuarios.email AS email_usuario
             FROM eventos
@@ -90,6 +88,6 @@ function exibirEventos($conexao, $categoria)
             <?php endforeach; ?>
         </div>
     </section>
-
+    
     <?php include('../includes/footer.php'); ?>
 </body>

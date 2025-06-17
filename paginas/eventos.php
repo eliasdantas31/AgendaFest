@@ -9,7 +9,6 @@ if (!$id) {
     exit();
 }
 
-// Processar comentário
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['email'])) {
     $comentario = trim($_POST['comentario'] ?? '');
     $usuario_email = $_SESSION['email'];
@@ -21,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['email'])) {
     }
 }
 
-// Buscar evento
 $stmt = $conexao->prepare("SELECT * FROM eventos WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
